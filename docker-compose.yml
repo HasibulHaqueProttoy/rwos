@@ -1,0 +1,86 @@
+# Local development services only. Never use these credentials anywhere else.
+# Start with `pnpm services:up` (or `pnpm dev`, which also starts the apps).
+name: rwos
+
+services:
+  postgres:
+    image: postgres:16.15-alpine
+    environment:
+      POSTGRES_USER: rwos
+      POSTGRES_PASSWORD: rwos_local_only
+      POSTGRES_DB: rwos
+    ports:
+      # 5433 on the host so it does not clash with a Postgres already on 5432 (for example Postgres.app).
+      - '${POSTGRES_HOST_PORT:-5433}:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U rwos -d rwos']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7.4-alpine
+    command: ['redis-server', '--appendonly', 'yes']
+    ports:
+      - '${REDIS_HOST_PORT:-6379}:6379'
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  minio:
+    # Community build of MinIO; the official minio/minio images are no longer published.
+    # See docs/decisions/0002-tooling.md.
+    image: pgsty/minio:RELEASE.2026-08-04T00-00-00Z
+    command: ['server', '/data', '--console-address', ':9001']
+    environment:
+      MINIO_ROOT_USER: rwos_local
+      MINIO_ROOT_PASSWORD: rwos_local_only
+    ports:
+      - '${MINIO_API_HOST_PORT:-9000}:9000'
+      - '${MINIO_CONSOLE_HOST_PORT:-9001}:9001'
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: ['CMD', 'mc', 'ready', 'local']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  # One-off job: creates the private local bucket, then exits.
+  minio-init:
+    image: pgsty/minio:RELEASE.2026-08-04T00-00-00Z
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: ['/bin/sh', '-c']
+    command:
+      - >-
+        mc alias set local http://minio:9000 rwos_local rwos_local_only &&
+        mc mb --ignore-existing local/rwos-local &&
+        mc anonymous set none local/rwos-local
+    restart: 'no'
+
+  mailpit:
+    image: axllent/mailpit:v1.33.1
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: '1'
+      MP_SMTP_AUTH_ALLOW_INSECURE: '1'
+    ports:
+      - '${SMTP_HOST_PORT:-1025}:1025'
+      - '${MAILPIT_UI_HOST_PORT:-8025}:8025'
+    healthcheck:
+      test: ['CMD', '/mailpit', 'readyz']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  postgres-data:
+  redis-data:
+  minio-data:

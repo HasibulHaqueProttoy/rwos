@@ -2,15 +2,49 @@
 
 ## Local development
 
-Requirements: Node.js 22 LTS, pnpm 9, Docker Desktop, Git.
+Requirements: Node.js 22 LTS or newer (`.nvmrc` says 22), pnpm 9 (pinned in `package.json`), Docker Desktop, Git.
 
-1. `cp .env.example .env.local` and fill local values (no real keys needed; test providers run by default).
-2. `docker compose up -d` starts Postgres 16 (5432), Redis (6379), MinIO (9000, console 9001) and Mailpit (inbox at http://localhost:8025).
-3. `pnpm install`
-4. `pnpm db:migrate` then `pnpm db:seed` (generated sample data only)
-5. `pnpm dev` runs web on http://localhost:3000, admin on http://localhost:3001, and the worker.
+### First time
 
-Reset everything: `docker compose down -v`, then steps 2 to 4.
+1. Install pnpm 9 with Corepack: `corepack enable pnpm`. If that fails with a permission error on `/usr/local/bin`, use a folder in your home directory instead: `corepack enable --install-directory ~/.local/bin pnpm` (make sure `~/.local/bin` is on your `PATH`).
+2. Install Docker Desktop and open it once so the engine is running.
+3. `cp .env.example .env.local`. The values are local throwaway defaults that match `docker-compose.yml`; no real keys are needed because test providers run by default.
+4. `pnpm install`
+
+### Every day
+
+- `pnpm dev` starts the Docker services (and waits until they are healthy), creates the local file bucket, then runs web on http://localhost:3000, admin on http://localhost:3001 and the worker.
+- `pnpm services:up` starts only the Docker services; `pnpm services:down` stops them and keeps the data.
+- `pnpm db:migrate` and `pnpm db:seed` (generated sample data only) arrive with task 1.4.
+
+### Checks (same as CI)
+
+`pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm format:check` (`pnpm format` fixes formatting).
+
+### Local services
+
+| Service | Address on your machine | Login |
+| --- | --- | --- |
+| Postgres 16 | `localhost:5433`, database `rwos` | `rwos` / `rwos_local_only` |
+| Redis | `localhost:6379` | none |
+| MinIO (S3 API) | http://localhost:9000, bucket `rwos-local` (private) | `rwos_local` / `rwos_local_only` |
+| MinIO console | http://localhost:9001 | same as above |
+| Mailpit SMTP | `localhost:1025` | any |
+| Mailpit inbox | http://localhost:8025 | none |
+
+These logins only work against your own containers. Never reuse them anywhere else.
+
+Postgres uses host port 5433, not 5432, so it does not clash with a Postgres already installed on the machine (for example Postgres.app). To use another port, set `POSTGRES_HOST_PORT` in your shell or a root `.env` file (Docker Compose reads `.env`, not `.env.local`) and change the port in `DATABASE_URL` in `.env.local` to match. The other ports can be changed the same way: `REDIS_HOST_PORT`, `MINIO_API_HOST_PORT`, `MINIO_CONSOLE_HOST_PORT`, `SMTP_HOST_PORT`, `MAILPIT_UI_HOST_PORT`.
+
+### Reset everything
+
+`pnpm services:reset` deletes all local data (`docker compose down -v`) and starts the services again. Then run the migrations and seed again (from task 1.4).
+
+### Troubleshooting
+
+- **The worker exits with "Invalid or missing environment variables"**: `.env.local` is missing or incomplete. Compare it with `.env.example`.
+- **"port is already allocated"**: another program uses that port. Stop it, or change the host port as described above.
+- **`docker: command not found`**: Docker Desktop is not installed or not running.
 
 ## Going live (later; hosting decided at deploy)
 
