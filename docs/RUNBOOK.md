@@ -44,7 +44,8 @@ Postgres uses host port 5433, not 5432, so it does not clash with a Postgres alr
 
 - **The worker exits with "Invalid or missing environment variables"**: `.env.local` is missing or incomplete. Compare it with `.env.example`.
 - **"port is already allocated"**: another program uses that port. Stop it, or change the host port as described above.
-- **`docker: command not found`**: Docker Desktop is not installed or not running.
+- **`docker: command not found`**: Docker Desktop is not installed, or its command-line tools are not on your `PATH`. In Docker Desktop, open Settings, Advanced, and choose to install the CLI tools for the system, or add `export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin"` to `~/.zshrc`.
+- **`pnpm: command not found`** after installing to `~/.local/bin`: add `export PATH="$HOME/.local/bin:$PATH"` to `~/.zshrc` and open a new terminal.
 
 ## Going live (later; hosting decided at deploy)
 

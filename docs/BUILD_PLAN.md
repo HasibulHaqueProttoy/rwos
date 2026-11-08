@@ -5,8 +5,7 @@ One release, built in five milestones behind feature flags. Finish and test each
 ## Milestone 1: Foundations (weeks 1 to 4)
 
 - [x] 1.1 Monorepo scaffold: pnpm workspaces, Turborepo, `apps/web`, `apps/admin`, `apps/worker`, `packages/*` from `ARCHITECTURE.md`; shared tsconfig (strict), ESLint, Prettier, Vitest; `pnpm lint`, `pnpm typecheck`, `pnpm test` work from the root
-- [ ] 1.2 Local infrastructure: `docker-compose.yml` with Postgres 16, Redis, MinIO and Mailpit; `.env.example`; `pnpm dev` starts everything; steps written in `RUNBOOK.md`
-  - Built on branch `task-1.1-1.2`. Tick once the Docker services have started and passed their health checks for the first time (Docker was not installed on the dev machine when this was written).
+- [x] 1.2 Local infrastructure: `docker-compose.yml` with Postgres 16, Redis, MinIO and Mailpit; `.env.example`; `pnpm dev` starts everything; steps written in `RUNBOOK.md`
 - [ ] 1.3 GitHub Actions CI: install, lint, typecheck, test, build, migration check on a fresh Postgres; dependency and secret scanning
 - [ ] 1.4 `packages/db`: Drizzle setup, conventions helpers (id, timestamps, money columns), `updated_at` trigger, migration and seed scripts
 - [ ] 1.5 `packages/ui`: design tokens as CSS variables (light and dark), Tailwind preset, shadcn/ui base components themed from tokens (Button, Input, Select, Badge, Card, Dialog, Sheet, Table, Tabs, Toast), the logo
