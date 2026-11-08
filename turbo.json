@@ -12,7 +12,8 @@
       "outputs": ["coverage/**"]
     },
     "test:integration": {
-      "cache": false
+      "cache": false,
+      "passThroughEnv": ["DATABASE_URL", "NODE_ENV"]
     },
     "dev": {
       "cache": false,
