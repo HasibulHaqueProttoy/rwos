@@ -30,11 +30,28 @@ export class InvalidEnvError extends Error {
   }
 }
 
-export function parseServerEnv(source: NodeJS.ProcessEnv = process.env): ServerEnv {
-  const result = serverEnvSchema.safeParse(source);
+/** Environment needed by database scripts (migrate, seed) and tests. */
+export const databaseEnvSchema = serverEnvSchema.pick({ NODE_ENV: true, DATABASE_URL: true });
+
+export type DatabaseEnv = z.infer<typeof databaseEnvSchema>;
+
+/** Validates `source` against `schema`, reporting only the names of bad variables. */
+export function parseEnv<Schema extends z.ZodType>(
+  schema: Schema,
+  source: NodeJS.ProcessEnv = process.env,
+): z.infer<Schema> {
+  const result = schema.safeParse(source);
   if (!result.success) {
     const names = [...new Set(result.error.issues.map((issue) => String(issue.path[0])))];
     throw new InvalidEnvError(names.sort());
   }
   return result.data;
+}
+
+export function parseServerEnv(source: NodeJS.ProcessEnv = process.env): ServerEnv {
+  return parseEnv(serverEnvSchema, source);
+}
+
+export function parseDatabaseEnv(source: NodeJS.ProcessEnv = process.env): DatabaseEnv {
+  return parseEnv(databaseEnvSchema, source);
 }

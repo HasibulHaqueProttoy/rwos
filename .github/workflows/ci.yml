@@ -39,7 +39,7 @@ jobs:
       - run: pnpm format:check
 
   migrations:
-    name: Migrations on a fresh database
+    name: Migrations and database tests
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     services:
@@ -70,11 +70,16 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Check docker-compose.yml is valid
         run: docker compose config --quiet
-      # db:migrate and db:seed arrive in task 1.4; until then these steps are skipped.
-      - name: Apply migrations
-        run: pnpm run --if-present db:migrate
-      - name: Run seed
-        run: pnpm run --if-present db:seed
+      - name: Check every schema change has a migration
+        run: pnpm --filter @rwos/db migrations:check
+      - name: Apply migrations to the empty database
+        run: pnpm db:migrate
+      - name: Run the seed (reference and sample data)
+        run: pnpm db:seed
+      - name: Apply migrations again (must be a no-op)
+        run: pnpm db:migrate
+      - name: Integration tests (each file gets its own fresh database)
+        run: pnpm test:integration
 
   dependencies:
     name: Dependency audit

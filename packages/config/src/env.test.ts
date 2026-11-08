@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { InvalidEnvError, parseServerEnv } from './env';
+import { InvalidEnvError, parseDatabaseEnv, parseServerEnv } from './env';
 
 const validEnv = {
   NODE_ENV: 'development',
@@ -56,5 +56,16 @@ describe('parseServerEnv', () => {
       expect((error as Error).message).not.toContain('not-a-port');
       expect((error as Error).message).not.toContain('local-secret-value');
     }
+  });
+});
+
+describe('parseDatabaseEnv', () => {
+  it('needs only DATABASE_URL', () => {
+    const env = parseDatabaseEnv({ DATABASE_URL: validEnv.DATABASE_URL });
+    expect(env).toEqual({ NODE_ENV: 'development', DATABASE_URL: validEnv.DATABASE_URL });
+  });
+
+  it('rejects a missing DATABASE_URL by name', () => {
+    expect(() => parseDatabaseEnv({})).toThrow(/DATABASE_URL/);
   });
 });

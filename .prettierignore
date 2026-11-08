@@ -7,3 +7,5 @@ pnpm-lock.yaml
 next-env.d.ts
 # Docs are hand-formatted; Prettier would re-align their tables.
 *.md
+# Written by drizzle-kit; reformatting would make the migration drift check fail.
+packages/db/migrations/meta
