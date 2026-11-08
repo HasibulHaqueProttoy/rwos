@@ -16,6 +16,7 @@ One release, built in five milestones behind feature flags. Finish and test each
 - [ ] 1.10 Catalog and Price Book schema: products, variants, prices, government_fees, bd_fee_slabs, plans, promo_codes, payment_channels, legal_entities; seed with current prices (US LLC $197 + state fee, UK A $299, UK B $469, IFZA 0 to 4+ visas, BD service fee BDT 25,000)
 - [ ] 1.11 Admin shell: sign-in, sidebar, global search placeholder, account menu, Price Book list and edit screens with audit logging
 - [ ] 1.12 Customer shell: PWA manifest, sign-in, sidebar and mobile tab bar, empty dashboard, light and dark themes
+- [ ] 1.13 Production images and local release rehearsal: Dockerfiles for web, admin and worker; a production Compose file (apps, Postgres, Redis, Caddy) that runs locally with generated data; CI builds the images on every pull request; steps in `RUNBOOK.md`. Replaces a staging server (decision 0004)
 
 ## Milestone 2: Run the business (weeks 5 to 10)
 
@@ -31,4 +32,4 @@ Compliance rules engine with sources, overrides and verification tasks; events p
 
 ## Milestone 5: Business OS and launch (weeks 23 to 30)
 
-Add-on modules (email, domain, Business Line, invoicing, Accounting Connect, Pack), rewards and affiliate income, wallet, promo codes, refer and earn, mail log, name rejection flow, retention and offboarding, migration of about 600 customers, security test, launch.
+Add-on modules (email, domain, Business Line, invoicing, Accounting Connect, Pack), rewards and affiliate income, wallet, promo codes, refer and earn, mail log, name rejection flow, retention and offboarding, migration of about 600 customers, security test, production on the Hostinger VPS (server hardening, Caddy, off-server backups and a tested restore, deploy from GitHub Actions over SSH), launch.

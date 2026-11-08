@@ -20,10 +20,10 @@ Read these before writing code, in this order:
 - Better Auth for login (inside the app, provider-independent)
 - Tailwind CSS + shadcn/ui components, themed only from design tokens
 - Zod for every input boundary
-- Background jobs behind the `JobQueue` interface (BullMQ + Redis locally)
+- Background jobs behind the `JobQueue` interface (BullMQ + Redis, locally and in production)
 - File storage behind the `FileStorage` interface (S3-compatible; MinIO locally)
 - Tests: Vitest (unit, integration), Playwright (end to end)
-- Hosting is undecided (Vercel + Supabase, or a Hostinger VPS). Never use a feature that only works on one of them.
+- Environments: build, test and preview locally (Docker) and on GitHub Actions; there is no separate staging server. Production is a Hostinger VPS running Docker Compose (decision 0004). Use only standard Node.js, PostgreSQL and Docker, never a platform-only feature (Vercel, Supabase and so on), so the app can move host without code changes.
 
 ## How to work
 

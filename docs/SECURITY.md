@@ -32,6 +32,6 @@ Target: OWASP ASVS level 2, and SOC 2 ready (controls designed in from day one).
 - Secrets only in the hosting secret store and local `.env.local` (git-ignored). `.env.example` lists every secret and provider key by name only, with no value. The one exception is throwaway local defaults that only work against the developer's own Docker containers (localhost URLs, the local Postgres and MinIO logins in `docker-compose.yml`); these are not secrets and are prefilled so `cp .env.example .env.local` works.
 - Dependency and secret scanning on every pull request; no merge with high-severity findings. Dependencies: `pnpm audit --audit-level high` in CI plus weekly Dependabot updates. Secrets: Gitleaks over the full git history in CI; reviewed false positives go in `.gitleaksignore` by fingerprint. CI actions are pinned to commit SHAs and the workflow token is read-only (see `docs/decisions/0003-ci.md`).
 - Two human reviewers for changes to auth, payments, documents, permissions, encryption.
-- No real customer data outside production; staging uses generated data.
+- No real customer data outside production; local development, CI and release rehearsals use generated data only.
 - Daily backups, point-in-time restore, monthly restore test recorded in `RUNBOOK.md`.
 - Outside penetration test before public launch; written incident response plan in `RUNBOOK.md`.
