@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import { createDatabase } from './client';
 
+// Server scripts and tests only (`@rwos/db/migrate`): app bundles must never include the migration runner.
 export const migrationsFolder = fileURLToPath(new URL('../migrations', import.meta.url));
 
 export interface MigrationResult {

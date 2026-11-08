@@ -6,6 +6,11 @@ Target: OWASP ASVS level 2, and SOC 2 ready (controls designed in from day one).
 
 - Staff: email + two-factor (TOTP or passkey) required; sessions expire after 12 hours of inactivity.
 - Customers: passwordless email code or Google; optional two-factor.
+- How it is built (`packages/auth`, decision 0007): nobody has a password. Everyone signs in with a 6-digit code emailed to them (valid 5 minutes, 3 tries, stored hashed). Staff must then enter an authenticator-app code (TOTP); until they set one up, the admin allows nothing but two-factor setup. Staff cannot turn two-factor off or "trust a device". Staff accounts are created by an admin, never by signing in, and the admin never emails a code to, or reveals, an address that is not active staff. Passkeys arrive with the admin sign-in screen (task 1.11).
+- Every session is stamped with the app that made it (admin or customer); a session from one app is refused by the other, even with the cookie renamed.
+- Customer sessions end after 7 days of inactivity.
+- Sign-in rate limits per IP address: 3 code requests, 5 code checks and 5 two-factor checks a minute. Requests from other websites are refused (origin check).
+- Two-factor secrets, backup codes and OAuth tokens are encrypted with `AUTH_SECRET` (one value shared by both apps, kept in the secret store).
 - Every server action and route checks a named permission (`packages/auth`), never a role name.
 - Row-level security on all customer tables; the app connects with a role that cannot bypass it.
 - Partner users see only cases assigned to them.

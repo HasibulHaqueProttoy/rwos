@@ -16,6 +16,7 @@ const validEnv = {
   SMTP_HOST: 'localhost',
   SMTP_PORT: '1025',
   SMTP_FROM: 'no-reply@rocketwave.local',
+  AUTH_SECRET: 'local-test-secret-that-is-at-least-32-chars',
 };
 
 describe('parseServerEnv', () => {
@@ -23,6 +24,20 @@ describe('parseServerEnv', () => {
     const env = parseServerEnv(validEnv);
     expect(env.SMTP_PORT).toBe(1025);
     expect(env.S3_FORCE_PATH_STYLE).toBe(true);
+  });
+
+  it('rejects an AUTH_SECRET shorter than 32 characters', () => {
+    expect(() => parseServerEnv({ ...validEnv, AUTH_SECRET: 'too-short' })).toThrow(/AUTH_SECRET/);
+  });
+
+  it('treats empty optional settings (copied from .env.example) as not set', () => {
+    const env = parseServerEnv({ ...validEnv, SMTP_USER: '', GOOGLE_CLIENT_ID: '' });
+    expect(env.SMTP_USER).toBeUndefined();
+    expect(env.GOOGLE_CLIENT_ID).toBeUndefined();
+  });
+
+  it('defaults EMAIL_PROVIDER to smtp', () => {
+    expect(parseServerEnv(validEnv).EMAIL_PROVIDER).toBe('smtp');
   });
 
   it('defaults NODE_ENV to development', () => {

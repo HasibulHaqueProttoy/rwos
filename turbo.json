@@ -13,7 +13,7 @@
     },
     "test:integration": {
       "cache": false,
-      "passThroughEnv": ["DATABASE_URL", "NODE_ENV"]
+      "passThroughEnv": ["DATABASE_URL", "NODE_ENV", "SMTP_HOST", "SMTP_PORT", "MAILPIT_API_URL"]
     },
     "dev": {
       "cache": false,

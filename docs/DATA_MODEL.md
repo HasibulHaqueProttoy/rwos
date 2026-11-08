@@ -26,15 +26,19 @@ How these are enforced (`packages/db`):
 
 | Table | Key columns |
 | --- | --- |
-| users | email (unique), name, phone, timezone, is_staff, mfa_enabled, deleted_at |
-| sessions, accounts, verifications | Better Auth tables |
+| users | email (unique, always lower case), name, email_verified, image, phone, timezone, is_staff (never set by sign-up), two_factor_enabled, deleted_at |
+| sessions | user_id, token (unique), expires_at, ip_address, user_agent, audience (admin, customer): a session works only in the app that made it |
+| accounts | user_id, provider_id, account_id (unique together), OAuth tokens (encrypted by Better Auth); `password` stays empty: nobody has a password |
+| verifications | identifier, value, expires_at: Better Auth's short-lived records (sign-in codes are stored hashed) |
+| two_factors | user_id (unique), secret and backup_codes (encrypted with AUTH_SECRET), verified, failed_verification_count, locked_until |
+| rate_limits | key (unique), count, last_request (milliseconds): sign-in rate limiting |
 | roles | key (founder, sales, operations, finance, support, partner), name |
 | permissions | key (e.g. `ledger.read`, `refund.approve`), description |
 | role_permissions | role_id, permission_id |
-| staff_members | user_id, role_id, partner_id (for partner users), active |
-| approval_rules | action (refund, discount, price_change, payout_recipient), condition jsonb, approver_role_id |
-| approvals | rule_id, subject_type, subject_id, requested_by, decided_by, status, reason |
-| audit_log | actor_user_id, action, subject_type, subject_id, before jsonb, after jsonb, ip, user_agent (append-only) |
+| staff_members | user_id (unique), role_id, partner_id (for partner users; foreign key to partners added with that table in Milestone 2), active |
+| approval_rules | action (refund, discount, price_change, payout_recipient), condition jsonb, approver_role_id, active |
+| approvals | rule_id, subject_type, subject_id, requested_by, decided_by, status (pending, approved, rejected, cancelled), reason, decided_at. The database refuses `decided_by = requested_by` (a second person decides) and a decision without who and when |
+| audit_log | actor_user_id (null for the system), action (dotted, for example `auth.sign_in`), subject_type, subject_id, before jsonb, after jsonb, ip, user_agent. Append-only: triggers reject UPDATE, DELETE and TRUNCATE |
 
 ## Workspaces and companies
 

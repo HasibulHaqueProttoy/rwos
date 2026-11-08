@@ -12,14 +12,15 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@next/env": "catalog:",
+    "@rwos/auth": "workspace:*",
+    "@rwos/config": "workspace:*",
     "@rwos/ui": "workspace:*",
     "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
   "devDependencies": {
-    "@next/env": "catalog:",
-    "@rwos/config": "workspace:*",
     "@tailwindcss/postcss": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
