@@ -6,7 +6,7 @@ One release, built in five milestones behind feature flags. Finish and test each
 
 - [x] 1.1 Monorepo scaffold: pnpm workspaces, Turborepo, `apps/web`, `apps/admin`, `apps/worker`, `packages/*` from `ARCHITECTURE.md`; shared tsconfig (strict), ESLint, Prettier, Vitest; `pnpm lint`, `pnpm typecheck`, `pnpm test` work from the root
 - [x] 1.2 Local infrastructure: `docker-compose.yml` with Postgres 16, Redis, MinIO and Mailpit; `.env.example`; `pnpm dev` starts everything; steps written in `RUNBOOK.md`
-- [ ] 1.3 GitHub Actions CI: install, lint, typecheck, test, build, migration check on a fresh Postgres; dependency and secret scanning
+- [x] 1.3 GitHub Actions CI: install, lint, typecheck, test, build, migration check on a fresh Postgres; dependency and secret scanning
 - [ ] 1.4 `packages/db`: Drizzle setup, conventions helpers (id, timestamps, money columns), `updated_at` trigger, migration and seed scripts
 - [ ] 1.5 `packages/ui`: design tokens as CSS variables (light and dark), Tailwind preset, shadcn/ui base components themed from tokens (Button, Input, Select, Badge, Card, Dialog, Sheet, Table, Tabs, Toast), the logo
 - [ ] 1.6 Identity schema and Better Auth: users, staff, roles, permissions, role_permissions, approval_rules, approvals, audit_log; staff two-factor; customer passwordless email code

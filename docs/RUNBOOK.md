@@ -47,6 +47,33 @@ Postgres uses host port 5433, not 5432, so it does not clash with a Postgres alr
 - **`docker: command not found`**: Docker Desktop is not installed, or its command-line tools are not on your `PATH`. In Docker Desktop, open Settings, Advanced, and choose to install the CLI tools for the system, or add `export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin"` to `~/.zshrc`.
 - **`pnpm: command not found`** after installing to `~/.local/bin`: add `export PATH="$HOME/.local/bin:$PATH"` to `~/.zshrc` and open a new terminal.
 
+## Continuous integration (GitHub Actions)
+
+`.github/workflows/ci.yml` runs on every pull request and every push to `main`. All four jobs must pass before merging.
+
+| Job | What it checks | Run it locally |
+| --- | --- | --- |
+| Lint, typecheck, test, build | `pnpm lint`, `typecheck`, `test`, `build`, `format:check` on Node 22 | the same commands |
+| Migrations on a fresh database | `docker-compose.yml` is valid; `pnpm db:migrate` then `pnpm db:seed` on an empty Postgres 16 (skipped until task 1.4 adds them) | `pnpm services:reset`, then the same commands |
+| Dependency audit | No high or critical advisories in any dependency | `pnpm audit --audit-level high` |
+| Secret scan | Gitleaks over the full git history | see below |
+
+Secret scan locally (needs Docker):
+
+```
+docker run --rm -v "$PWD:/repo" -w /repo --entrypoint sh ghcr.io/gitleaks/gitleaks:v8.30.1 -c 'git config --global --add safe.directory /repo && gitleaks git . --redact --verbose'
+```
+
+When a job fails:
+
+- **Format check**: run `pnpm format` and commit.
+- **Dependency audit**: update the package (or wait for the Dependabot pull request). If no fix exists yet, record the risk and the plan in `docs/decisions/` before merging; never silence the check.
+- **Secret scan**: if the finding is a real secret, rotate it first (it is already in git history), then remove it. If it is a false positive, add its fingerprint (printed by Gitleaks) to `.gitleaksignore` with a one-line reason.
+
+Dependabot (`.github/dependabot.yml`) opens weekly update pull requests for npm packages, GitHub Actions and the Docker images in `docker-compose.yml`. Workflow actions are pinned to commit SHAs; Dependabot updates the SHA and the version comment together.
+
+Recommended repository setting (once, by an admin): Settings, Branches, add a rule for `main` that requires the four CI checks to pass and at least one review before merging.
+
 ## Going live (later; hosting decided at deploy)
 
 **Option A, Vercel + Supabase (Singapore):** create staging and production Supabase projects; run migrations against each; connect GitHub to Vercel for `apps/web` and `apps/admin`; set environment variables; run the worker on a small container host.

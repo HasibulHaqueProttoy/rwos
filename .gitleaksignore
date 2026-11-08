@@ -1,0 +1,5 @@
+# Reviewed false positives, one fingerprint per line (commit:file:rule:line).
+# Add a line only after checking the finding is not a real secret, and say why.
+
+# "Better Auth, S3-compatible storage" in a decision record matched the generic-api-key rule.
+10578d7b3cf1dca4ba8c9b6bf33db9a7f8fe3b56:docs/decisions/0001-foundations.md:generic-api-key:8
