@@ -20,6 +20,11 @@ Requirements: Node.js 22 LTS or newer (`.nvmrc` says 22), pnpm 9 (pinned in `pac
 - `pnpm test:integration` runs the database tests; each test file creates and deletes its own throwaway database on your local Postgres.
 - Changing the schema: edit the tables in `packages/db/src/schema/`, run `pnpm db:generate`, review the new SQL file in `packages/db/migrations/`, then `pnpm db:migrate`. See `packages/db/README.md`.
 
+### Design system
+
+- `pnpm --filter @rwos/ui tokens:build` regenerates the token CSS and logo paths after a change in `packages/ui/tokens/`.
+- http://localhost:3001/design-system shows every shared component in both themes (development only).
+
 ### Checks (same as CI)
 
 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm format:check` (`pnpm format` fixes formatting).

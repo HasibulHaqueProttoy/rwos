@@ -1,0 +1,27 @@
+{
+  "note": "Product values from the design system README (layout and logo sections) that are not in its tokens file, plus sizes chosen for the first components. Add them to the design system tokens when it is next revised.",
+  "size": {
+    "tap": {
+      "value": "44px",
+      "usage": "Minimum height of buttons, inputs, tab triggers and table header rows (44px tap targets)."
+    },
+    "sidebar": { "value": "248px", "usage": "Desktop sidebar width." },
+    "logo-min": { "value": "120px", "usage": "Minimum logo width." }
+  },
+  "container": {
+    "content": { "value": "1200px", "usage": "Maximum width of page content on desktop." },
+    "dialog": { "value": "480px", "usage": "Maximum width of a dialog (chosen in task 1.5)." },
+    "sheet": { "value": "400px", "usage": "Width of a side sheet on desktop (chosen in task 1.5)." }
+  },
+  "fontFaces": {
+    "sans": "Inter Variable",
+    "display": "Inter Tight Variable",
+    "mono": "JetBrains Mono Variable"
+  },
+  "logo": {
+    "note": "Exact logo colours from the logo file. Full colour on light grounds; all white on dark grounds (brand book).",
+    "light": { "rocket": "#EB6700", "flame": "#FF9900", "wordmark": "#000000" },
+    "dark": { "rocket": "#FFFFFF", "flame": "#FFFFFF", "wordmark": "#FFFFFF" },
+    "white": "#FFFFFF"
+  }
+}

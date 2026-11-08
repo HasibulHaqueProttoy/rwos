@@ -8,7 +8,7 @@ One release, built in five milestones behind feature flags. Finish and test each
 - [x] 1.2 Local infrastructure: `docker-compose.yml` with Postgres 16, Redis, MinIO and Mailpit; `.env.example`; `pnpm dev` starts everything; steps written in `RUNBOOK.md`
 - [x] 1.3 GitHub Actions CI: install, lint, typecheck, test, build, migration check on a fresh Postgres; dependency and secret scanning
 - [x] 1.4 `packages/db`: Drizzle setup, conventions helpers (id, timestamps, money columns), `updated_at` trigger, migration and seed scripts
-- [ ] 1.5 `packages/ui`: design tokens as CSS variables (light and dark), Tailwind preset, shadcn/ui base components themed from tokens (Button, Input, Select, Badge, Card, Dialog, Sheet, Table, Tabs, Toast), the logo
+- [x] 1.5 `packages/ui`: design tokens as CSS variables (light and dark), Tailwind preset, shadcn/ui base components themed from tokens (Button, Input, Select, Badge, Card, Dialog, Sheet, Table, Tabs, Toast), the logo
 - [ ] 1.6 Identity schema and Better Auth: users, staff, roles, permissions, role_permissions, approval_rules, approvals, audit_log; staff two-factor; customer passwordless email code
 - [ ] 1.7 Permission checks in `packages/auth` with tests; seed roles (founder, sales, operations, finance, support, partner)
 - [ ] 1.8 Workspaces, memberships, invitations, companies, people, company_roles, addresses, company_tax_ids (encrypted); row-level security policies with tests proving cross-workspace access fails

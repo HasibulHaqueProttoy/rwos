@@ -40,3 +40,20 @@ Spacing 4, 8, 12, 16, 20, 24, 32, 48. Radius: sm 6 (badges), md 10 (inputs), lg 
 Primary buttons are ink (black) pills; one brand-orange button per screen only at checkout or upgrade, with ink text. Sentence case. One primary action per screen. Status badges always include a word. Log out lives in the account menu. Desktop: 248px sidebar, max content 1200px. Mobile: bottom tab bar, 16px gutters, 44px tap targets. WCAG 2.2 AA in both themes.
 
 Logo: `packages/ui/assets/rocketwave-logo.svg` (full colour, 461 x 90). Minimum width 120px.
+
+## In code
+
+`packages/ui` holds the tokens (copied unchanged from the design system), the Tailwind theme that exposes only these tokens, and the shared components. See `packages/ui/README.md` for the utility names, and http://localhost:3001/design-system in development for every component in both themes.
+
+## Accessibility fixes (task 1.5)
+
+Measured against WCAG 2.2 AA, four values or usages in the design system fall short. They are fixed in `packages/ui/tokens/overrides.json` and should be folded back into the design system:
+
+| Token | Design system | In code | Why |
+| --- | --- | --- | --- |
+| border-strong (light) | #8F96A1 | #858D99 | 2.98:1 on surface and 2.70:1 on surface-sunken; input borders need 3:1. Same grey, slightly darker |
+| focus (light) | #EB6700 | #B84F00 (brand-strong) | 2.95:1 on canvas; focus rings need 3:1 |
+| on-brand (new alias) | ink text on brand | ink in light, on-ink in dark | Dark-theme ink on dark brand is 2.14:1; the alias keeps the text dark (5.78:1 light, 7.96:1 dark) |
+| ink-subtle usage | placeholders and disabled | disabled only; placeholders use ink-muted | 2.91:1 on the input fill; placeholder text must stay readable |
+
+A test in `packages/ui` checks every text, border and focus pair in both themes, so a future token change that breaks contrast fails CI.

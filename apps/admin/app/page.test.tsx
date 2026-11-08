@@ -5,7 +5,7 @@ import HomePage from './page';
 
 describe('@rwos/admin home page', () => {
   it('renders the heading', () => {
-    expect(renderToStaticMarkup(<HomePage />)).toContain('<h1>Rocket Wave admin</h1>');
+    expect(renderToStaticMarkup(<HomePage />)).toMatch(/<h1[^>]*>Rocket Wave admin<\/h1>/);
   });
 
   it('sets the page title', () => {

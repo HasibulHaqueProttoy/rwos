@@ -1,0 +1,25 @@
+{
+  "note": "Changes to the Rocket Wave design system tokens (rocketwave.tokens.json, copied unchanged from the design system). Each one exists because the source value fails WCAG 2.2 AA, which CLAUDE.md requires. Fold these back into the design system, then delete them here.",
+  "color": {
+    "border-strong": {
+      "light": "#858D99",
+      "was": "#8F96A1",
+      "reason": "#8F96A1 measures 2.98:1 on surface and 2.70:1 on surface-sunken; input and checkbox borders need 3:1 (WCAG 1.4.11). #858D99 is the same grey, slightly darker: 3.35:1 on surface, 3.04:1 on surface-sunken."
+    },
+    "focus": {
+      "light": "#B84F00",
+      "was": "#EB6700",
+      "reason": "#EB6700 measures 2.95:1 on canvas; focus rings need 3:1 (WCAG 1.4.11, 2.4.13). #B84F00 is the existing brand-strong orange: 4.59:1 on canvas, 5.05:1 on surface. Dark theme unchanged."
+    }
+  },
+  "aliases": {
+    "on-brand": {
+      "light": "ink",
+      "dark": "on-ink",
+      "usage": "Text on a brand-filled button (checkout or upgrade only). The design system says ink text, but dark-theme ink (#F3F4F6) on dark brand (#FF8A2A) is 2.14:1. This alias keeps the text dark in both themes: 5.78:1 light, 7.96:1 dark."
+    }
+  },
+  "usage": {
+    "ink-subtle": "Disabled text only. Placeholders use ink-muted, because ink-subtle on surface-sunken is 2.91:1 and placeholder text must stay readable (WCAG 1.4.3)."
+  }
+}
