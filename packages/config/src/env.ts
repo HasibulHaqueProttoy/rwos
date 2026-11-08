@@ -1,5 +1,11 @@
 import { z } from 'zod';
 
+/** An optional setting: an empty value (as copied from .env.example) counts as not set. */
+const optionalString = z.preprocess(
+  (value) => (value === '' ? undefined : value),
+  z.string().min(1).optional(),
+);
+
 const booleanString = z.enum(['true', 'false']).transform((value) => value === 'true');
 
 /** Server-side environment shared by every app. Names match .env.example. */
@@ -18,6 +24,14 @@ export const serverEnvSchema = z.object({
   SMTP_HOST: z.string().min(1),
   SMTP_PORT: z.coerce.number().int().min(1).max(65535),
   SMTP_FROM: z.email(),
+  SMTP_USER: optionalString,
+  SMTP_PASSWORD: optionalString,
+  EMAIL_PROVIDER: z.enum(['smtp', 'test']).default('smtp'),
+  /** Signs sessions and encrypts two-factor secrets. At least 32 characters; generate with `openssl rand -base64 32`. */
+  AUTH_SECRET: z.string().min(32),
+  /** Google sign-in for customers; both or neither. */
+  GOOGLE_CLIENT_ID: optionalString,
+  GOOGLE_CLIENT_SECRET: optionalString,
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;

@@ -8,7 +8,7 @@ Requirements: Node.js 22 LTS or newer (`.nvmrc` says 22), pnpm 9 (pinned in `pac
 
 1. Install pnpm 9 with Corepack: `corepack enable pnpm`. If that fails with a permission error on `/usr/local/bin`, use a folder in your home directory instead: `corepack enable --install-directory ~/.local/bin pnpm` (make sure `~/.local/bin` is on your `PATH`).
 2. Install Docker Desktop and open it once so the engine is running.
-3. `cp .env.example .env.local`. The values are local throwaway defaults that match `docker-compose.yml`; no real keys are needed because test providers run by default.
+3. `cp .env.example .env.local`. The values are local throwaway defaults that match `docker-compose.yml`; no real keys are needed because test providers run by default. Then set `AUTH_SECRET` to your own value: run `openssl rand -base64 32` and paste the result.
 4. `pnpm install`
 
 ### Every day
@@ -19,6 +19,10 @@ Requirements: Node.js 22 LTS or newer (`.nvmrc` says 22), pnpm 9 (pinned in `pac
 - `pnpm db:seed` loads reference data plus generated sample data (never real customers; refused in production). `pnpm db:seed:reference` loads reference data only (roles, prices) and is the one to use in production.
 - `pnpm test:integration` runs the database tests; each test file creates and deletes its own throwaway database on your local Postgres.
 - Changing the schema: edit the tables in `packages/db/src/schema/`, run `pnpm db:generate`, review the new SQL file in `packages/db/migrations/`, then `pnpm db:migrate`. See `packages/db/README.md`.
+
+### Signing in locally
+
+Sign-in codes are emailed: open Mailpit at http://localhost:8025 to read them. Staff accounts are created with a command from task 1.7 onwards; until then the admin has no staff to sign in.
 
 ### Design system
 

@@ -12,7 +12,7 @@ The active provider per environment comes from `integration_settings` (keys encr
 | Interface | Methods (minimum) | Real providers |
 | --- | --- | --- |
 | PaymentProvider | createCheckout, createPaymentLink, refund, verifyWebhook, parseWebhook, listSettlements | Stripe, Mollie, SSLCommerz |
-| EmailSender | send(templateKey, to, data) | Postmark or Resend |
+| EmailSender | send({ to, subject, text, html? }); templates are rendered first by the notifications module | Any SMTP service (Postmark, Resend, Amazon SES); Mailpit locally |
 | SmsSender | send(to, body) | Bangladesh SMS gateway, US provider with 10DLC |
 | WhatsAppLinkBuilder | buildLink(phone, text) | wa.me links now; WhatsApp Business Platform later |
 | TeamNotifier | post(channelKey, message, link) | Slack incoming webhooks |

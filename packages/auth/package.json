@@ -9,13 +9,22 @@
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:integration": "vitest run --config vitest.integration.config.ts"
   },
   "devDependencies": {
-    "@rwos/config": "workspace:*",
+    "@better-auth/utils": "catalog:",
     "@types/node": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
+  },
+  "dependencies": {
+    "@rwos/config": "workspace:*",
+    "@rwos/core": "workspace:*",
+    "@rwos/db": "workspace:*",
+    "@rwos/integrations": "workspace:*",
+    "better-auth": "catalog:",
+    "drizzle-orm": "catalog:"
   }
 }
