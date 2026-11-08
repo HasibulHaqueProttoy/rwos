@@ -74,11 +74,15 @@ Dependabot (`.github/dependabot.yml`) opens weekly update pull requests for npm 
 
 Recommended repository setting (once, by an admin): Settings, Branches, add a rule for `main` that requires the four CI checks to pass and at least one review before merging.
 
-## Going live (later; hosting decided at deploy)
+## Environments and going live
 
-**Option A, Vercel + Supabase (Singapore):** create staging and production Supabase projects; run migrations against each; connect GitHub to Vercel for `apps/web` and `apps/admin`; set environment variables; run the worker on a small container host.
+Build, test and preview locally and on GitHub; production is a Hostinger VPS (decision 0004). There is no staging server.
 
-**Option B, Hostinger VPS:** Docker Compose stack (web, admin, worker, Postgres, Redis) behind Caddy with automatic TLS; files on Cloudflare R2 or S3, not the VPS disk; WAL archiving and nightly dumps to off-server storage; firewall, SSH keys only, automatic security updates; GitHub Actions builds images and deploys over SSH; a second smaller VPS for staging.
+- **Local:** Docker services plus `pnpm dev`, generated data only.
+- **GitHub Actions:** every pull request runs the CI checks against a fresh database.
+- **Release rehearsal (before each production deploy):** build the production Docker images and run them locally against generated data (task 1.13 adds this).
+
+**Production, Hostinger VPS (set up in Milestone 5):** Docker Compose stack (web, admin, worker, Postgres, Redis) behind Caddy with automatic TLS; files on Cloudflare R2 or S3, not the VPS disk; WAL archiving and nightly dumps to off-server storage, with a monthly restore test; firewall, SSH keys only, automatic security updates; GitHub Actions builds the images and deploys over SSH. On a VPS the team owns operating system updates, intrusion blocking, disk encryption, certificate renewal and recovery from a failed server, and keeps the evidence for SOC 2.
 
 ## Recurring operations
 

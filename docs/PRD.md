@@ -32,7 +32,7 @@ Full spec (living document): Rocket Wave Business OS Product Spec, https://claud
 1. Staff accounts, roles, permissions, approvals, audit log
 2. Leads pipeline (manual entry for now), quotes, discounts with approval tiers
 3. Orders, cases, task tracker with automatic priority, partner assignment
-4. Invoices, payments, receipts, credit notes, refunds with policy checks
+4. Invoices, payments, receipts, credit notes, refunds with policy checks (money-back window: US and UK 7 days, UAE Free Zone 30 days, as in the refund policy; stored per jurisdiction as config)
 5. Money ledger across two entities (Rocket Wave Inc and the Bangladesh proprietorship), partner payouts, fees, monthly inputs (marketing spend, expenses), reconciliation, month close
 6. Metrics: active businesses, net revenue, gross margin, ARR, renewal rate, churn, LTV, CAC, refund rate, attach rate, lead conversion, collections, operations
 7. Customer app: checkout, onboarding, KYC (co-owner invites), signature step, order tracker, document vault, compliance calendar, renewals, support tickets, notifications, rewards, wallet, promo codes, refer and earn, settings, multiple companies, team members

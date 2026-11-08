@@ -60,4 +60,6 @@ UI (Server Components and Server Actions) calls a core service; the service chec
 
 ## Environments
 
-local (Docker) → staging (no real data) → production. Hosting is decided at deploy time; the build must run on both Vercel + Supabase and a Hostinger VPS with Docker.
+local (Docker, generated data) → GitHub Actions (CI on every pull request, fresh database, generated data) → production (Hostinger VPS, Docker Compose). There is no separate staging server; before a release, the production Docker images are run locally against generated data (decision 0004).
+
+Production on the VPS: web, admin and worker as Docker containers behind Caddy (automatic TLS), PostgreSQL 16 and Redis in Docker on the same server, files on S3-compatible object storage off the server (Cloudflare R2 or AWS S3, never the VPS disk alone), backups shipped off the server. Everything uses standard Node.js, PostgreSQL and Docker, so the host can change without code changes.

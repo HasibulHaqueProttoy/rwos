@@ -137,6 +137,8 @@ The source of truth for every table. Change this file in the same pull request a
 | bank_statement_lines | settlement_account_id, posted_on, amount_minor, reference, matched_entry_id |
 | month_closes | legal_entity_id, month, closed_by, closed_at |
 
+The starting accounts, posting rules and the schema changes the ledger needs are in `CHART_OF_ACCOUNTS.md`.
+
 ## Rewards, support, notifications and the rest
 
 | Table | Key columns |

@@ -36,5 +36,5 @@ The active provider per environment comes from `integration_settings` (keys encr
 
 1. Add the adapter implementing the interface, with tests using recorded sample payloads.
 2. Add the secret names to `.env.example` (never values).
-3. Enter keys in admin settings for staging; run the provider's test mode end to end.
-4. Switch production after staging passes; record the change in `docs/decisions/`.
+3. Enter the provider's test-mode keys in admin settings locally (or in a release rehearsal) and run its test mode end to end; never put live keys anywhere but production.
+4. Enter the live keys in production after the test-mode run passes; record the change in `docs/decisions/`.
