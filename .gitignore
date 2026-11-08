@@ -8,3 +8,8 @@ coverage
 .turbo
 *.log
 .DS_Store
+*.tsbuildinfo
+next-env.d.ts
+
+# Local preview config for the Claude desktop app (machine-specific paths)
+.claude/launch.json

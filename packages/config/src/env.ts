@@ -1,0 +1,40 @@
+import { z } from 'zod';
+
+const booleanString = z.enum(['true', 'false']).transform((value) => value === 'true');
+
+/** Server-side environment shared by every app. Names match .env.example. */
+export const serverEnvSchema = z.object({
+  NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
+  APP_URL: z.url(),
+  ADMIN_URL: z.url(),
+  DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }),
+  REDIS_URL: z.url({ protocol: /^rediss?$/ }),
+  S3_ENDPOINT: z.url(),
+  S3_REGION: z.string().min(1),
+  S3_BUCKET: z.string().min(1),
+  S3_ACCESS_KEY_ID: z.string().min(1),
+  S3_SECRET_ACCESS_KEY: z.string().min(1),
+  S3_FORCE_PATH_STYLE: booleanString.default(false),
+  SMTP_HOST: z.string().min(1),
+  SMTP_PORT: z.coerce.number().int().min(1).max(65535),
+  SMTP_FROM: z.email(),
+});
+
+export type ServerEnv = z.infer<typeof serverEnvSchema>;
+
+export class InvalidEnvError extends Error {
+  constructor(readonly variableNames: string[]) {
+    // Only names go in the message, never values: they may be secrets.
+    super(`Invalid or missing environment variables: ${variableNames.join(', ')}`);
+    this.name = 'InvalidEnvError';
+  }
+}
+
+export function parseServerEnv(source: NodeJS.ProcessEnv = process.env): ServerEnv {
+  const result = serverEnvSchema.safeParse(source);
+  if (!result.success) {
+    const names = [...new Set(result.error.issues.map((issue) => String(issue.path[0])))];
+    throw new InvalidEnvError(names.sort());
+  }
+  return result.data;
+}

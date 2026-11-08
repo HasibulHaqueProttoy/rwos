@@ -1,0 +1,4 @@
+{
+  "extends": "@rwos/config/tsconfig/library.json",
+  "include": ["src", "*.ts"]
+}
