@@ -60,7 +60,7 @@ Never edit a migration that has been merged; write a new one. CI fails if the sc
 
 ## Seeds
 
-Seeds live in `src/seed/registry.ts`: `referenceSeeds` (needed everywhere, including production) and `sampleSeeds` (generated data for local development and CI). Each seed runs in its own transaction and must be idempotent (upsert on a natural key), because seeds run again on every deploy and every `pnpm db:seed`.
+This package provides the seed runner (`runSeeds`). The seeds themselves live with their modules and are listed in `packages/core/src/seeds.ts`: `referenceSeeds` (needed everywhere, including production) and `sampleSeeds` (generated data for local development and CI). Each seed runs in its own transaction and must be idempotent (upsert on a natural key), because seeds run again on every deploy and every `pnpm db:seed`.
 
 ## Tests
 

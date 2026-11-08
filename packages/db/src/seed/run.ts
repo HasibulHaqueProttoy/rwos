@@ -1,5 +1,4 @@
 import type { Database } from '../client';
-import { referenceSeeds as defaultReference, sampleSeeds as defaultSample } from './registry';
 import type { Seed } from './types';
 
 export interface RunSeedsOptions {
@@ -7,7 +6,8 @@ export interface RunSeedsOptions {
   includeSample: boolean;
   nodeEnv: 'development' | 'test' | 'production';
   logger: { info(message: string): void };
-  seeds?: { reference: Seed[]; sample: Seed[] };
+  /** Reference seeds (every environment) and sample seeds (local and CI only), in run order. */
+  seeds: { reference: Seed[]; sample: Seed[] };
 }
 
 export class SampleDataInProductionError extends Error {
@@ -25,7 +25,7 @@ export async function runSeeds(
   if (options.includeSample && options.nodeEnv === 'production') {
     throw new SampleDataInProductionError();
   }
-  const seeds = options.seeds ?? { reference: defaultReference, sample: defaultSample };
+  const { seeds } = options;
   const toRun = options.includeSample ? [...seeds.reference, ...seeds.sample] : seeds.reference;
 
   const ran: string[] = [];

@@ -10,7 +10,7 @@ One release, built in five milestones behind feature flags. Finish and test each
 - [x] 1.4 `packages/db`: Drizzle setup, conventions helpers (id, timestamps, money columns), `updated_at` trigger, migration and seed scripts
 - [x] 1.5 `packages/ui`: design tokens as CSS variables (light and dark), Tailwind preset, shadcn/ui base components themed from tokens (Button, Input, Select, Badge, Card, Dialog, Sheet, Table, Tabs, Toast), the logo
 - [x] 1.6 Identity schema and Better Auth: users, staff, roles, permissions, role_permissions, approval_rules, approvals, audit_log; staff two-factor; customer passwordless email code (passkeys for staff move to 1.11 with the sign-in screen)
-- [ ] 1.7 Permission checks in `packages/auth` with tests; seed roles (founder, sales, operations, finance, support, partner)
+- [x] 1.7 Permission checks in `packages/auth` with tests; seed roles (founder, sales, operations, finance, support, partner)
 - [ ] 1.8 Workspaces, memberships, invitations, companies, people, company_roles, addresses, company_tax_ids (encrypted); row-level security policies with tests proving cross-workspace access fails
 - [ ] 1.9 Integrations package: all interfaces from `INTEGRATIONS.md` with test providers; FileStorage on MinIO; EmailSender to Mailpit; JobQueue on BullMQ; outbox table and worker loop
 - [ ] 1.10 Catalog and Price Book schema: products, variants, prices, government_fees, bd_fee_slabs, plans, promo_codes, payment_channels, legal_entities; seed with current prices (US LLC $197 + state fee, UK A $299, UK B $469, IFZA 0 to 4+ visas, BD service fee BDT 25,000)

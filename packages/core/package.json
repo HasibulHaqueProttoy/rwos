@@ -10,7 +10,9 @@
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:integration": "vitest run --config vitest.integration.config.ts"
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "seed": "tsx --env-file-if-exists=../../.env.local src/scripts/seed.ts",
+    "staff:create": "tsx --env-file-if-exists=../../.env.local src/scripts/create-staff.ts"
   },
   "devDependencies": {
     "@rwos/config": "workspace:*",
@@ -20,7 +22,10 @@
     "vitest": "catalog:"
   },
   "dependencies": {
+    "@rwos/config": "workspace:*",
     "@rwos/db": "workspace:*",
+    "drizzle-orm": "catalog:",
+    "tsx": "catalog:",
     "zod": "catalog:"
   }
 }
