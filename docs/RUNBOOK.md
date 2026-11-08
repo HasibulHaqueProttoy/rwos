@@ -15,7 +15,10 @@ Requirements: Node.js 22 LTS or newer (`.nvmrc` says 22), pnpm 9 (pinned in `pac
 
 - `pnpm dev` starts the Docker services (and waits until they are healthy), creates the local file bucket, then runs web on http://localhost:3000, admin on http://localhost:3001 and the worker.
 - `pnpm services:up` starts only the Docker services; `pnpm services:down` stops them and keeps the data.
-- `pnpm db:migrate` and `pnpm db:seed` (generated sample data only) arrive with task 1.4.
+- `pnpm db:migrate` applies new migrations (safe to run any time; it does nothing when the database is up to date).
+- `pnpm db:seed` loads reference data plus generated sample data (never real customers; refused in production). `pnpm db:seed:reference` loads reference data only (roles, prices) and is the one to use in production.
+- `pnpm test:integration` runs the database tests; each test file creates and deletes its own throwaway database on your local Postgres.
+- Changing the schema: edit the tables in `packages/db/src/schema/`, run `pnpm db:generate`, review the new SQL file in `packages/db/migrations/`, then `pnpm db:migrate`. See `packages/db/README.md`.
 
 ### Checks (same as CI)
 
@@ -38,7 +41,7 @@ Postgres uses host port 5433, not 5432, so it does not clash with a Postgres alr
 
 ### Reset everything
 
-`pnpm services:reset` deletes all local data (`docker compose down -v`) and starts the services again. Then run the migrations and seed again (from task 1.4).
+`pnpm services:reset` deletes all local data (`docker compose down -v`) and starts the services again. Then run `pnpm db:migrate` and `pnpm db:seed` again.
 
 ### Troubleshooting
 
@@ -54,7 +57,7 @@ Postgres uses host port 5433, not 5432, so it does not clash with a Postgres alr
 | Job | What it checks | Run it locally |
 | --- | --- | --- |
 | Lint, typecheck, test, build | `pnpm lint`, `typecheck`, `test`, `build`, `format:check` on Node 22 | the same commands |
-| Migrations on a fresh database | `docker-compose.yml` is valid; `pnpm db:migrate` then `pnpm db:seed` on an empty Postgres 16 (skipped until task 1.4 adds them) | `pnpm services:reset`, then the same commands |
+| Migrations and database tests | `docker-compose.yml` is valid; every schema change has a migration; `pnpm db:migrate`, `pnpm db:seed`, then `pnpm db:migrate` again (must change nothing) on an empty Postgres 16; `pnpm test:integration`, including the data model convention check | `pnpm services:reset`, then the same commands |
 | Dependency audit | No high or critical advisories in any dependency | `pnpm audit --audit-level high` |
 | Secret scan | Gitleaks over the full git history | see below |
 

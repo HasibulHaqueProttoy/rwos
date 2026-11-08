@@ -13,6 +13,14 @@ The source of truth for every table. Change this file in the same pull request a
 - Customer-owned tables carry `workspace_id uuid not null` and a row-level security policy
 - Soft delete (`deleted_at timestamptz`) only where marked; everything else is never deleted
 - Encrypted columns end in `_enc` (bytea) with a `_last4` or hash column when search is needed
+- No floating point anywhere (`real`, `double precision`, `money`); exchange rates use `numeric`
+- Names are snake_case; TypeScript uses camelCase keys and Drizzle converts them
+
+How these are enforced (`packages/db`):
+
+- Tables are built with the column helpers in `packages/db/src/columns.ts` (`id()`, `timestamps()`, `softDelete()`, `utcTimestamp()`, `amountMinor()`, `currency()`, and the check helpers).
+- `pnpm db:migrate` attaches the `set_updated_at` trigger to every table with an `updated_at` column (migration `0000_updated_at_trigger`).
+- An integration test runs `findConventionViolations()` against the fully migrated database on every pull request. It fails on: a table without `id uuid` as its primary key, missing or non-`timestamptz` `created_at`/`updated_at`, any timestamp without time zone, floating point or `money` columns, `*_minor` columns that are not `bigint`, currency columns that are not `char(3)`, foreign keys without an index, names that are not snake_case, or a missing `updated_at` trigger. A library-owned table can be listed as an exception, with the reason.
 
 ## Identity and access
 
