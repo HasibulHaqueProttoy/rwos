@@ -1,5 +1,9 @@
 # Reviewed false positives, one fingerprint per line (commit:file:rule:line).
 # Add a line only after checking the finding is not a real secret, and say why.
+# Do not quote the matched text in these comments: Gitleaks scans this file too.
 
-# "Better Auth, S3-compatible storage" in a decision record matched the generic-api-key rule.
+# Decision 0001, line 8: a sentence listing the stack matched the generic-api-key rule.
 10578d7b3cf1dca4ba8c9b6bf33db9a7f8fe3b56:docs/decisions/0001-foundations.md:generic-api-key:8
+
+# The first version of this file quoted that sentence in a comment, which matched the same rule.
+1ba577d86ccf1b53d1bced31caf619c00e723790:.gitleaksignore:generic-api-key:4
