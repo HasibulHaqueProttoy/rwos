@@ -7,10 +7,11 @@ import tseslint from 'typescript-eslint';
 
 /**
  * The single ESLint config for the monorepo.
- * @param {{ rootDir: string, nextApps?: string[] }} options
+ * @param {{ rootDir: string, nextApps?: string[], reactPackages?: string[] }} options
  */
-export function createConfig({ rootDir, nextApps = [] }) {
+export function createConfig({ rootDir, nextApps = [], reactPackages = [] }) {
   const appFiles = nextApps.map((dir) => `${dir}/**/*.{ts,tsx}`);
+  const reactFiles = [...appFiles, ...reactPackages.map((dir) => `${dir}/**/*.tsx`)];
 
   return tseslint.config(
     {
@@ -49,18 +50,25 @@ export function createConfig({ rootDir, nextApps = [] }) {
       ...tseslint.configs.disableTypeChecked,
     },
     {
-      files: appFiles,
+      // Accessibility and React hooks rules for every React file (apps and shared UI).
+      files: reactFiles,
       plugins: {
-        '@next/next': nextPlugin,
         'jsx-a11y': jsxA11y,
         'react-hooks': reactHooks,
       },
       languageOptions: { globals: globals.browser },
       rules: {
-        ...nextPlugin.configs.recommended.rules,
-        ...nextPlugin.configs['core-web-vitals'].rules,
         ...jsxA11y.flatConfigs.recommended.rules,
         ...reactHooks.configs.recommended.rules,
+      },
+    },
+    {
+      // Next.js rules for the two apps.
+      files: appFiles,
+      plugins: { '@next/next': nextPlugin },
+      rules: {
+        ...nextPlugin.configs.recommended.rules,
+        ...nextPlugin.configs['core-web-vitals'].rules,
         // Pages Router only; both apps use the App Router.
         '@next/next/no-html-link-for-pages': 'off',
       },

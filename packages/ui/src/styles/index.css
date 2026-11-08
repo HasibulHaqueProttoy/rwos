@@ -1,0 +1,13 @@
+/* The Rocket Wave UI stylesheet. Each app imports it after Tailwind:
+     @import "tailwindcss";
+     @import "@rwos/ui/styles.css";
+*/
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/inter-tight';
+@import '@fontsource-variable/jetbrains-mono';
+@import './tokens.css';
+@import './theme.css';
+@import './base.css';
+
+/* Let Tailwind find the classes used by the shared components. */
+@source '../';

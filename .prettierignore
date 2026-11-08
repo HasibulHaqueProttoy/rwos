@@ -9,3 +9,6 @@ next-env.d.ts
 *.md
 # Written by drizzle-kit; reformatting would make the migration drift check fail.
 packages/db/migrations/meta
+# Generated from packages/ui/tokens by tokens:build; a test checks they match exactly.
+packages/ui/src/styles/tokens.css
+packages/ui/src/styles/theme.css

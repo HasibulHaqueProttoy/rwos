@@ -1,0 +1,257 @@
+{
+  "name": "Rocket Wave",
+  "version": 1,
+  "meta": {
+    "source": "Figma file Rocket-Wave (j35T99mHfGON7KM8fKamjK): Logo, Typography and Dashboard frames, adapted for product UI on 2026-11-08"
+  },
+  "color": {
+    "themes": [
+      { "id": "light", "name": "Light" },
+      { "id": "dark", "name": "Dark" }
+    ],
+    "tokens": [
+      {
+        "name": "brand",
+        "value": { "light": "#EB6700", "dark": "#FF8A2A" },
+        "usage": "Rocket orange, exact from the logo SVG. Brand moments, active nav marker, progress, icons, large text 24px+. Not for small text on white (3.2:1)."
+      },
+      {
+        "name": "brand-strong",
+        "value": { "light": "#B84F00", "dark": "#FFA45C" },
+        "usage": "Orange for small text and links on surface or canvas (5.0:1 on white). Use instead of brand whenever text is under 24px."
+      },
+      {
+        "name": "brand-tint",
+        "value": { "light": "#FFF1E6", "dark": "#2A1A0C" },
+        "usage": "Soft orange ground for the selected nav item, highlighted plan card and brand callouts."
+      },
+      {
+        "name": "flame",
+        "value": { "light": "#FF9900", "dark": "#FFB547" },
+        "usage": "The small flame triangle under the rocket, exact from the logo SVG. Accent only: illustrations, the cover, celebratory moments. Never text."
+      },
+      {
+        "name": "ink",
+        "value": { "light": "#111214", "dark": "#F3F4F6" },
+        "usage": "Primary text and the primary button fill (the current app's black buttons, kept)."
+      },
+      {
+        "name": "ink-muted",
+        "value": { "light": "#5F6672", "dark": "#A3A9B3" },
+        "usage": "Secondary text, labels, helper text. Replaces the old #9F9F9F, which failed contrast (2.6:1)."
+      },
+      {
+        "name": "ink-subtle",
+        "value": { "light": "#8A909A", "dark": "#7C838E" },
+        "usage": "Placeholder text and disabled labels only, never for real data (3.4:1, below body-text contrast by design)."
+      },
+      {
+        "name": "on-ink",
+        "value": { "light": "#FFFFFF", "dark": "#111214" },
+        "usage": "Text and icons on an ink-filled button or badge."
+      },
+      {
+        "name": "canvas",
+        "value": { "light": "#F3F4F6", "dark": "#0E0F11" },
+        "usage": "App background behind cards (matches the current dashboard grey)."
+      },
+      {
+        "name": "surface",
+        "value": { "light": "#FFFFFF", "dark": "#17191C" },
+        "usage": "Cards, sidebar, dialogs, header."
+      },
+      {
+        "name": "surface-sunken",
+        "value": { "light": "#F2F4F5", "dark": "#1F2226" },
+        "usage": "Input fields and read-only value wells (the current field grey)."
+      },
+      {
+        "name": "surface-hover",
+        "value": { "light": "#ECEEF1", "dark": "#24282D" },
+        "usage": "Hover state on rows, nav items and ghost buttons."
+      },
+      {
+        "name": "border",
+        "value": { "light": "#E3E6EA", "dark": "#2C3036" },
+        "usage": "Card and table dividers, hairlines."
+      },
+      {
+        "name": "border-strong",
+        "value": { "light": "#8F96A1", "dark": "#6B727D" },
+        "usage": "Input and checkbox borders, secondary button outline (3:1 against surface)."
+      },
+      {
+        "name": "focus",
+        "value": { "light": "#EB6700", "dark": "#FF8A2A" },
+        "usage": "2px focus ring with a 2px offset on every interactive element."
+      },
+      {
+        "name": "success",
+        "value": { "light": "#15803D", "dark": "#4ADE80" },
+        "usage": "Text and icon for Active, Paid, Filed, Verified (4.7:1 on success-tint). Replaces #50CD89, which failed contrast."
+      },
+      {
+        "name": "success-tint",
+        "value": { "light": "#DCFCE7", "dark": "#0B2A17" },
+        "usage": "Badge ground for success states."
+      },
+      {
+        "name": "warning",
+        "value": { "light": "#92400E", "dark": "#FBBF24" },
+        "usage": "Text and icon for Upcoming, Due soon, Waiting on customer."
+      },
+      {
+        "name": "warning-tint",
+        "value": { "light": "#FEF3C7", "dark": "#2A2008" },
+        "usage": "Badge ground for warning states."
+      },
+      {
+        "name": "danger",
+        "value": { "light": "#B91C1C", "dark": "#F87171" },
+        "usage": "Text and icon for Overdue, Failed, Rejected, destructive buttons."
+      },
+      {
+        "name": "danger-tint",
+        "value": { "light": "#FEE2E2", "dark": "#2C1010" },
+        "usage": "Badge ground for danger states and error field backgrounds."
+      },
+      {
+        "name": "info",
+        "value": { "light": "#1D4ED8", "dark": "#7FA7FF" },
+        "usage": "Text and icon for In progress, Filed with authority, informational notes."
+      },
+      {
+        "name": "info-tint",
+        "value": { "light": "#DBEAFE", "dark": "#0F1C3A" },
+        "usage": "Badge ground for info states."
+      },
+      {
+        "name": "neutral-tint",
+        "value": { "light": "#EEF0F2", "dark": "#24282D" },
+        "usage": "Badge ground for Draft, Inactive, Not applicable (text uses ink-muted)."
+      }
+    ]
+  },
+  "type": {
+    "families": {
+      "sans": "\"Inter\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "display": "\"Inter Tight\", \"Inter\", system-ui, sans-serif",
+      "mono": "\"JetBrains Mono\", ui-monospace, \"SFMono-Regular\", Menlo, monospace"
+    },
+    "groups": [
+      {
+        "name": "Display",
+        "family": "display",
+        "styles": [
+          {
+            "name": "display",
+            "fontSize": "32px",
+            "lineHeight": "38px",
+            "fontWeight": 600,
+            "letterSpacing": "-0.02em"
+          },
+          {
+            "name": "h1",
+            "fontSize": "24px",
+            "lineHeight": "32px",
+            "fontWeight": 600,
+            "letterSpacing": "-0.015em"
+          },
+          {
+            "name": "h2",
+            "fontSize": "20px",
+            "lineHeight": "28px",
+            "fontWeight": 600,
+            "letterSpacing": "-0.01em"
+          }
+        ]
+      },
+      {
+        "name": "Text",
+        "family": "sans",
+        "styles": [
+          { "name": "h3", "fontSize": "16px", "lineHeight": "24px", "fontWeight": 600 },
+          { "name": "body-lg", "fontSize": "16px", "lineHeight": "24px", "fontWeight": 400 },
+          { "name": "body", "fontSize": "14px", "lineHeight": "20px", "fontWeight": 400 },
+          { "name": "body-strong", "fontSize": "14px", "lineHeight": "20px", "fontWeight": 500 },
+          { "name": "label", "fontSize": "13px", "lineHeight": "18px", "fontWeight": 500 },
+          { "name": "caption", "fontSize": "12px", "lineHeight": "16px", "fontWeight": 400 },
+          {
+            "name": "overline",
+            "fontSize": "11px",
+            "lineHeight": "16px",
+            "fontWeight": 600,
+            "letterSpacing": "0.06em"
+          }
+        ]
+      },
+      {
+        "name": "Data",
+        "family": "mono",
+        "styles": [{ "name": "data", "fontSize": "13px", "lineHeight": "20px", "fontWeight": 500 }]
+      }
+    ]
+  },
+  "spacing": {
+    "tokens": [
+      { "name": "space-1", "value": "4px", "usage": "Icon to label gap, badge padding block." },
+      {
+        "name": "space-2",
+        "value": "8px",
+        "usage": "Gap inside a control, between stacked label and field."
+      },
+      {
+        "name": "space-3",
+        "value": "12px",
+        "usage": "Button padding inline (small), list row gap."
+      },
+      {
+        "name": "space-4",
+        "value": "16px",
+        "usage": "Field padding, mobile page gutter, gap between form fields."
+      },
+      { "name": "space-5", "value": "20px", "usage": "Card padding on mobile." },
+      {
+        "name": "space-6",
+        "value": "24px",
+        "usage": "Card padding on desktop, gap between cards."
+      },
+      { "name": "space-8", "value": "32px", "usage": "Section spacing inside a page." },
+      { "name": "space-12", "value": "48px", "usage": "Page top spacing, empty-state padding." }
+    ]
+  },
+  "radius": {
+    "tokens": [
+      { "name": "radius-sm", "value": "6px", "usage": "Badges, checkboxes, tags (was 5px)." },
+      {
+        "name": "radius-md",
+        "value": "10px",
+        "usage": "Inputs, read-only wells, menu items (kept from the current fields)."
+      },
+      {
+        "name": "radius-lg",
+        "value": "16px",
+        "usage": "Cards, dialogs, sheets (was 15px, now on the 4px grid)."
+      },
+      {
+        "name": "radius-full",
+        "value": "999px",
+        "usage": "Buttons and the company switcher (the current pill buttons, kept)."
+      }
+    ]
+  },
+  "shadow": {
+    "tokens": [
+      {
+        "name": "shadow-sm",
+        "value": "0 1px 2px rgba(17,18,20,0.06)",
+        "usage": "Cards on canvas in light theme; replaced by the border token in dark theme."
+      },
+      {
+        "name": "shadow-lg",
+        "value": "0 12px 32px rgba(17,18,20,0.14)",
+        "usage": "Dialogs, popovers, the support chat panel."
+      }
+    ]
+  }
+}

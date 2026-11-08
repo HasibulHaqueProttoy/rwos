@@ -1,0 +1,83 @@
+/* Base styles shared by both apps. Only design tokens; no raw colours or spacing. */
+
+@theme {
+  --animate-fade-in: rw-fade-in 150ms ease-out;
+  --animate-fade-out: rw-fade-out 100ms ease-in;
+  --animate-dialog-in: rw-dialog-in 150ms ease-out;
+  --animate-slide-in-right: rw-slide-in-right 200ms ease-out;
+  --animate-slide-in-left: rw-slide-in-left 200ms ease-out;
+  --animate-slide-in-bottom: rw-slide-in-bottom 200ms ease-out;
+
+  @keyframes rw-fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes rw-fade-out {
+    to {
+      opacity: 0;
+    }
+  }
+  /* Uses the scale property, not transform: Tailwind positions the dialog with translate. */
+  @keyframes rw-dialog-in {
+    from {
+      opacity: 0;
+      scale: 0.97;
+    }
+  }
+  @keyframes rw-slide-in-right {
+    from {
+      transform: translateX(100%);
+    }
+  }
+  @keyframes rw-slide-in-left {
+    from {
+      transform: translateX(-100%);
+    }
+  }
+  @keyframes rw-slide-in-bottom {
+    from {
+      transform: translateY(100%);
+    }
+  }
+}
+
+/* The 2px focus ring with a 2px offset, on every interactive element (use focus-visible:focus-ring). */
+@utility focus-ring {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-tint);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
