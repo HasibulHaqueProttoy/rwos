@@ -32,6 +32,23 @@ if (result.status === 'two_factor_setup_required') redirect('/sign-in/two-factor
 - `getCustomerSession` does the same for the customer app.
 - The Better Auth endpoints are served at `/api/auth/*` in each app (`app/api/auth/[...all]/route.ts`).
 
+## Permissions
+
+```ts
+import { authorize, can } from '@rwos/auth';
+
+// In every admin server action or route handler:
+const staff = await authorize(auth, db, await headers(), 'refunds.approve');
+// Throws AuthorizationError with reason 'signed_out', 'two_factor_setup_required' or 'forbidden'.
+
+// To hide a button (never instead of authorize):
+can(staff.permissions, 'prices.manage');
+```
+
+- Checks permission keys, never role names. The keys and the default role table are in `@rwos/core` (`packages/core/src/identity`).
+- Permissions are read from the database on every call, so a change made in the admin applies on the next request.
+- `loadStaffPermissions(db, userId)` returns an empty set for anyone who is not active, non-deleted staff.
+
 ## Audit
 
 Every completed sign-in writes `auth.sign_in` (with the method: `email_code`, `email_code_and_totp`, `email_code_and_backup_code`); turning two-factor on or off writes `auth.two_factor_enabled` / `auth.two_factor_disabled`. A sign-in still waiting for its second factor is not recorded.

@@ -3,6 +3,5 @@ export * from './columns';
 export { findConventionViolations, type ConventionOptions } from './conventions';
 export * as schema from './schema';
 export { sessionAudiences, type SessionAudience } from './schema/identity';
-export { referenceSeeds, sampleSeeds } from './seed/registry';
 export { runSeeds, SampleDataInProductionError, type RunSeedsOptions } from './seed/run';
 export type { Seed } from './seed/types';

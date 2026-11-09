@@ -16,13 +16,14 @@ Requirements: Node.js 22 LTS or newer (`.nvmrc` says 22), pnpm 9 (pinned in `pac
 - `pnpm dev` starts the Docker services (and waits until they are healthy), creates the local file bucket, then runs web on http://localhost:3000, admin on http://localhost:3001 and the worker.
 - `pnpm services:up` starts only the Docker services; `pnpm services:down` stops them and keeps the data.
 - `pnpm db:migrate` applies new migrations (safe to run any time; it does nothing when the database is up to date).
-- `pnpm db:seed` loads reference data plus generated sample data (never real customers; refused in production). `pnpm db:seed:reference` loads reference data only (roles, prices) and is the one to use in production.
+- `pnpm db:seed` loads reference data plus generated sample data (never real customers; refused in production). `pnpm db:seed:reference` loads reference data only (roles, permissions, later prices) and is the one to use in production. Seeds live in `packages/core/src/seeds.ts`.
+- `pnpm staff:create --email <work email> --name "<full name>" --role <founder|sales|operations|finance|support|partner>` creates a staff account (run the reference seed first). The person then signs in at the admin with an emailed code and sets up an authenticator app. Use it for the first founder; after that, staff are managed in the admin.
 - `pnpm test:integration` runs the database tests; each test file creates and deletes its own throwaway database on your local Postgres.
 - Changing the schema: edit the tables in `packages/db/src/schema/`, run `pnpm db:generate`, review the new SQL file in `packages/db/migrations/`, then `pnpm db:migrate`. See `packages/db/README.md`.
 
 ### Signing in locally
 
-Sign-in codes are emailed: open Mailpit at http://localhost:8025 to read them. Staff accounts are created with a command from task 1.7 onwards; until then the admin has no staff to sign in.
+Sign-in codes are emailed: open Mailpit at http://localhost:8025 to read them. Create a staff account for yourself with `pnpm staff:create` (above); the admin sign-in screen arrives with task 1.11.
 
 ### Design system
 
@@ -56,6 +57,7 @@ Postgres uses host port 5433, not 5432, so it does not clash with a Postgres alr
 
 - **The worker exits with "Invalid or missing environment variables"**: `.env.local` is missing or incomplete. Compare it with `.env.example`.
 - **"port is already allocated"**: another program uses that port. Stop it, or change the host port as described above.
+- **`role "rwos" does not exist`**: the connection reached a different Postgres using the same port (for example one installed with Homebrew). Stop that server (`brew services stop postgresql@16`), or move the project to another port with `POSTGRES_HOST_PORT` and the matching port in `DATABASE_URL`.
 - **`docker: command not found`**: Docker Desktop is not installed, or its command-line tools are not on your `PATH`. In Docker Desktop, open Settings, Advanced, and choose to install the CLI tools for the system, or add `export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin"` to `~/.zshrc`.
 - **`pnpm: command not found`** after installing to `~/.local/bin`: add `export PATH="$HOME/.local/bin:$PATH"` to `~/.zshrc` and open a new terminal.
 

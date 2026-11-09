@@ -11,7 +11,9 @@ Target: OWASP ASVS level 2, and SOC 2 ready (controls designed in from day one).
 - Customer sessions end after 7 days of inactivity.
 - Sign-in rate limits per IP address: 3 code requests, 5 code checks and 5 two-factor checks a minute. Requests from other websites are refused (origin check).
 - Two-factor secrets, backup codes and OAuth tokens are encrypted with `AUTH_SECRET` (one value shared by both apps, kept in the secret store).
-- Every server action and route checks a named permission (`packages/auth`), never a role name.
+- Every server action and route checks a named permission (`packages/auth`), never a role name. `authorize(auth, db, headers, ...permissions)` is the gate: it requires a fully signed-in staff member (two-factor done) whose role holds every permission asked for, reads permissions fresh on each request (a change in the admin applies at once), and refuses with a reason (signed out, two-factor setup needed, or the missing permission). `can()` only hides controls.
+- The permission catalogue and the default role table are in `packages/core/src/identity`; the role table follows the PRD and decision 0008 (operations see only assigned cases; sales see invoice status read-only; founders and operations edit compliance rules; support and founders may view as a customer). Only founders approve refunds, discounts above the limit, payout recipients and prices, and manage staff and roles.
+- Deactivating a staff member ends all their sessions at once.
 - Row-level security on all customer tables; the app connects with a role that cannot bypass it.
 - Partner users see only cases assigned to them.
 - Quarterly access review screen; offboarding disables a user in one action and reassigns their tasks.
